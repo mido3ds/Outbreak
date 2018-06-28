@@ -16,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class PlayingScreen implements Screen {
     private static final String TAG = PlayingScreen.class.getSimpleName();
@@ -83,7 +82,7 @@ public class PlayingScreen implements Screen {
         SideWall wall2 = new SideWall(world, width, height);
         Array<Bar> bars = createBars(5, 6, 30, 100, 10f);
 
-        stage = new Stage(new FitViewport(480f, 480f));
+        stage = new Stage();
         stage.addActor(mainBar);
         stage.addActor(ball);
         stage.addActor(wall1);
@@ -165,13 +164,13 @@ public class PlayingScreen implements Screen {
 
     private void listenForInput() {
         if (started) {
-            float accX = Gdx.input.getAccelerometerX();
+            float accY = Gdx.input.getAccelerometerY();
 
-            if (Gdx.input.isKeyPressed(Keys.LEFT) || accX < -1) {
+            if (Gdx.input.isKeyPressed(Keys.LEFT) || accY < -1) {
                 mainBar.moveToLeft();
             }
 
-            if (Gdx.input.isKeyPressed(Keys.RIGHT) || accX > 1) {
+            if (Gdx.input.isKeyPressed(Keys.RIGHT) || accY > 1) {
                 mainBar.moveToRight();
             }
         } else {
@@ -181,7 +180,7 @@ public class PlayingScreen implements Screen {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Keys.R) || Gdx.input.isTouched()) {
+        if (Gdx.input.isKeyPressed(Keys.R)) {
             restart();
         }
     }
