@@ -19,9 +19,9 @@ class Ball extends Actor {
     private static final String TAG = Ball.class.getSimpleName();
     private static final float RADIUS = 15f;
     private static final float RESTITUTION = 1.5f;
-    private static final float DENSITY = 1f;
+    private static final float DENSITY = .1f;
     private static final int SEGMENTS = 700;
-    private static final float IMPULSE = 2500f;
+    private static final float IMPULSE = 850000f;
     private static final Color COLOR = Color.WHITE;
     private static final float FRICTION = 3f;
 

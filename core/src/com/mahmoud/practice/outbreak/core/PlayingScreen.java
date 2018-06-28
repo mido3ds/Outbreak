@@ -22,6 +22,7 @@ public class PlayingScreen implements Screen {
     private static final String TAG = PlayingScreen.class.getSimpleName();
     private static final float PHYS_TIME_STEP = 1 / 30f;
     private static final int PHYS_ITERATIONS = 5;
+    private static final int SPEED = 3;
 
     private MainBar mainBar;
     private Ball ball;
@@ -128,10 +129,11 @@ public class PlayingScreen implements Screen {
         } else if (hasFailed()) {
             onFailing();
         }
-
-        if (started) {
-            world.step(PHYS_TIME_STEP, PHYS_ITERATIONS, PHYS_ITERATIONS);
-            stage.act(PHYS_TIME_STEP);
+        for (int i = 0; i < SPEED; i++) {
+            if (started) {
+                world.step(PHYS_TIME_STEP, PHYS_ITERATIONS, PHYS_ITERATIONS);
+                stage.act(PHYS_TIME_STEP);
+            }
         }
         stage.draw();
     }
@@ -163,21 +165,23 @@ public class PlayingScreen implements Screen {
 
     private void listenForInput() {
         if (started) {
-            if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+            float accX = Gdx.input.getAccelerometerX();
+
+            if (Gdx.input.isKeyPressed(Keys.LEFT) || accX < -1) {
                 mainBar.moveToLeft();
             }
 
-            if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+            if (Gdx.input.isKeyPressed(Keys.RIGHT) || accX > 1) {
                 mainBar.moveToRight();
             }
         } else {
-            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+            if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isTouched()) {
                 ball.impulse();
                 started = true;
             }
         }
 
-        if (Gdx.input.isKeyPressed(Keys.R)) {
+        if (Gdx.input.isKeyPressed(Keys.R) || Gdx.input.isTouched()) {
             restart();
         }
     }
